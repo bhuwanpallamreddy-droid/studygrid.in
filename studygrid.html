@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Grid</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background: linear-gradient(135deg, #00FF00, #00FFFF, #FFFF00, #DC143C);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    overflow-x: hidden;
+}
+body * {
+    color: #DC143C !important;
+    text-shadow: 0 0 5px #DC143C, 0 0 10px #DC143C, 0 0 15px #DC143C !important;
+}
+header { background: rgba(0,0,0,0.4); padding: 50px 20px; text-align: center; }
+header h1 { margin:0; font-size:3em; }
+header p { margin:10px 0 0; font-weight:400; font-size:1.2em; }
+.container { width: 90%; max-width: 1000px; margin: auto; padding: 20px 0; }
+.product { display:flex; align-items:center; background: rgba(0,0,0,0.4); border-radius:15px; padding:20px; margin:20px 0; transition: transform 0.3s, box-shadow 0.3s; }
+.product:hover { transform: translateY(-10px); box-shadow: 0 0 20px #DC143C; }
+.product .icon { font-size:50px; margin-right:20px; }
+.product-content h2 { margin:0; }
+.price { font-weight:600; font-size:1.3em; margin:10px 0; }
+button { padding:12px 22px; background:#FFFF00; border:none; border-radius:12px; cursor:pointer; font-weight:500; transition:0.3s; color:#DC143C !important; text-shadow:0 0 5px #DC143C, 0 0 10px #DC143C !important; }
+button:hover { box-shadow:0 0 15px #FFFF00; transform: translateY(-2px); }
+.notes-section h2 { margin-top:50px; text-align:center; }
+.subject h3, .grade h4 { cursor:pointer; background: rgba(0,0,0,0.4); padding:12px 15px; border-radius:10px; margin:5px 0; transition:0.3s; user-select:none; }
+.subject h3:hover, .grade h4:hover { background: rgba(0,0,0,0.6); box-shadow:0 0 15px #DC143C; }
+.grades, .chapters { list-style:none; padding-left:25px; margin:5px 0; display:none; }
+.chapters li { padding:6px 10px; background: rgba(0,0,0,0.3); margin:3px 0; border-radius:6px; transition:0.3s, box-shadow 0.3s; }
+.chapters li:hover { box-shadow:0 0 10px #DC143C; }
+.upi-payment { text-align:center; margin-top:20px; display:none; }
+.upi-payment img { width:200px; height:200px; border:3px solid #FFFF00; border-radius:15px; transition:0.3s; }
+.upi-payment img:hover { box-shadow:0 0 20px #FFFF00; transform: scale(1.05); }
+.upi-payment p { font-weight:bold; margin-top:10px; }
+.contact { padding:25px; background: rgba(0,0,0,0.4); border-radius:12px; margin-top:50px; }
+footer { text-align:center; padding:20px; background: rgba(0,0,0,0.5); margin-top:30px; font-weight:500; }
+@keyframes gradientBG { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+</style>
+</head>
+<body>
+
+<header>
+<h1>Study Grid</h1>
+<p>Instagram: @studygrid.hq (DM before paying)</p>
+</header>
+
+<div class="container">
+
+  <!-- Product Cards -->
+  <div class="product">
+    <div class="icon">📘</div>
+    <div class="product-content">
+        <h2>One-Week Portion</h2>
+        <p class="price">₹49</p>
+        <button onclick="pay('One-Week Portion',49)">Buy Now</button>
+    </div>
+  </div>
+
+  <div class="product">
+    <div class="icon">📅</div>
+    <div class="product-content">
+        <h2>Revised Portion Timetable</h2>
+        <p class="price">₹59</p>
+        <button onclick="pay('Revised Portion Timetable',59)">Buy Now</button>
+    </div>
+  </div>
+
+  <div class="product">
+    <div class="icon">📝</div>
+    <div class="product-content">
+        <h2>Important Notes (Concept-Wise)</h2>
+        <p class="price">₹59-₹99</p>
+        <button onclick="scrollToNotes()">Choose Subject & Grade</button>
+    </div>
+  </div>
+
+  <div class="product">
+    <div class="icon">📆</div>
+    <div class="product-content">
+        <h2>One-Month Timetable</h2>
+        <p class="price">₹199</p>
+        <button onclick="pay('One-Month Timetable',199)">Buy Now</button>
+    </div>
+  </div>
+
+  <!-- Notes Section -->
+  <div class="notes-section" id="notes">
+    <h2>Important Notes — Subjects & Grades</h2>
+    <div class="subject">
+        <h3 onclick="toggleList('maths-grades')">Mathematics ▼</h3>
+        <ul class="grades" id="maths-grades"></ul>
+    </div>
+    <div class="subject">
+        <h3 onclick="toggleList('science-grades')">Science ▼</h3>
+        <ul class="grades" id="science-grades"></ul>
+    </div>
+  </div>
+
+  <!-- UPI QR Code -->
+  <div class="upi-payment" id="upi-section">
+    <h3>Scan to Pay via UPI (DM @studygrid.hq first!)</h3>
+    <img src="upi-qr.png" alt="UPI QR Code">
+    <p>Pay to: bhuwanreddy@fam</p>
+  </div>
+
+  <!-- Contact -->
+  <div class="contact">
+    <h3>Contact Us</h3>
+    <p>Email: studygrid.hq@gmail.com</p>
+    <p>Instagram: @studygrid.hq (DM before paying)</p>
+  </div>
+
+</div>
+
+<footer>© 2025 Study Grid</footer>
+
+<script>
+// Full NCERT chapters for Grades 6–10
+const syllabus = {
+  "Maths": {
+    "6":["Knowing Our Numbers","Whole Numbers","Playing with Numbers","Basic Geometrical Ideas","Understanding Elementary Shapes","Integers","Fractions","Decimals","Data Handling","Mensuration","Algebra","Ratio and Proportion","Symmetry","Practical Geometry"],
+    "7":["Integers","Fractions and Decimals","Data Handling","Simple Equations","Lines and Angles","The Triangle and its Properties","Congruence of Triangles","Comparing Quantities","Rational Numbers","Perimeter and Area","Algebraic Expressions","Exponents","Symmetry","Visualising Solid Shapes"],
+    "8":["Rational Numbers","Linear Equations","Understanding Quadrilaterals","Practical Geometry","Data Handling","Squares and Square Roots","Cubes and Cube Roots","Comparing Quantities","Algebraic Expressions and Identities","Mensuration","Exponents and Powers","Direct and Inverse Proportions","Factorization","Introduction to Graphs","Playing with Numbers"],
+    "9":["Number Systems","Algebra","Geometry","Mensuration","Statistics and Probability","Coordinate Geometry","Linear Equations in Two Variables","Surface Areas and Volumes","Polynomials","Quadrilaterals","Triangles","Circles","Heron’s Formula","Probability"],
+    "10":["Real Numbers","Algebra","Mensuration","Coordinate Geometry","Geometry","Statistics","Probability","Triangles","Quadrilaterals","Circles","Introduction to Trigonometry","Applications of Trigonometry","Surface Areas and Volumes","Probability"]
+  },
+  "Science": {
+    "6":["Food: Components and Functions","Materials: Physical and Chemical Changes","Atoms and Molecules","Living Organisms","Motion and Measurement","Electric Current and Circuits","Light, Shadows and Reflection","Water, Air and Weather","Waste and its Management"],
+    "7":["Nutrition in Animals and Plants","Heat","Acids, Bases and Salts","Physical and Chemical Changes","Motion and Time","Electricity","Light","Water","Forest and Wildlife"],
+    "8":["Microorganisms: Friend and Foe","Crop Production and Management","Synthetic Fibres and Plastics","Materials: Metals and Non-Metals","Coal and Petroleum","Cell-Structure and Functions","Reproduction","Force and Pressure","Friction","Sound","Chemical Effects of Current","Some Natural Phenomena","Stars and Solar System","Pollution"],
+    "9":["Matter in Our Surroundings","Is Matter Around Us Pure","Atoms and Molecules","Structure of Atom","The Fundamental Unit of Life","Tissues","Diversity of the Living World","Why Do We Fall Ill","Motion","Force and Laws of Motion","Gravitation","Work and Energy","Sound","Natural Resources","Improvement in Food Resources","The Periodic Table","Chemical Reactions and Equations","Light","Human Eye and Colorful World","Electricity"],
+    "10":["Chemical Reactions","Acids, Bases and Salts","Metals and Non-Metals","Carbon and its Compounds","Periodic Classification of Elements","Life Processes","Control and Coordination","How do Organisms Reproduce","Heredity and Evolution","Light","Human Eye","Electricity","Magnetic Effects of Electric Current","Sources of Energy","Our Environment","Management of Natural Resources"]
+  }
+};
+
+function pay(product, price){ 
+    const upiSection = document.getElementById('upi-section');
+    upiSection.style.display = 'block';
+    upiSection.scrollIntoView({behavior:'smooth'});
+    alert(`Purchase: ${product}\nPrice: ₹${price}\nPay to: bhuwanreddy@fam\nDM @studygrid.hq on Instagram before paying.\nNote: "${product}"`);
+}
+
+function scrollToNotes(){ document.getElementById('notes').scrollIntoView({behavior:'smooth'}); }
+
+function toggleList(id){ 
+    const el=document.getElementById(id); 
+    el.style.display=(el.style.display==='block')?'none':'block'; 
+}
+
+function populateChapters(subject, elementId){
+  const container = document.getElementById(elementId);
+  for(let grade=6; grade<=10; grade++){
+    const li = document.createElement('li');
+    li.className='grade';
+    const h4=document.createElement('h4');
+    h4.textContent=`Grade ${grade} ▼`;
+    h4.onclick=()=>toggleList(subject+'-grade-'+grade);
+    li.appendChild(h4);
+    const ul=document.createElement('ul');
+    ul.className='chapters collapsible';
+    ul.id=subject+'-grade-'+grade;
+    syllabus[subject][grade].forEach(ch=>{
+        const c=document.createElement('li'); 
+        c.textContent=ch; 
+        ul.appendChild(c);
+    });
+    li.appendChild(ul);
+    container.appendChild(li);
+  }
+}
+
+populateChapters('Maths','maths-grades');
+populateChapters('Science','science-grades');
+README.md
+</script>
+
+</body>
+</html>
